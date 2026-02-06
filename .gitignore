@@ -1,0 +1,16 @@
+# Datasets
+dataset_sen12flood_v1/
+
+# Python / Environment
+.venv/
+__pycache__/
+*.ipynb_checkpoints
+
+# System
+.DS_Store
+
+# Secrets
+.env
+
+# Editor
+.vscode/
