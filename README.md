@@ -45,5 +45,29 @@ Descarga una imagen dividiéndola en parches (tiles) y organiza los resultados e
 ## Instalación y Uso
 
 1. Asegúrate de tener configurado el entorno de Python.
-2. Instala las dependencias: `pip install -r requirements.txt` (si existe) o las necesarias (`earthengine-api`, `geemap`, `rasterio`, etc.).
-3. Ejecuta `main.ipynb` para correr el flujo de trabajo.
+4. Instala las dependencias completas: `pip install -r requirements.txt`.
+5. Ejecuta `main.ipynb` para correr el flujo de trabajo de descarga.
+
+## Pipeline de Super-Resolución (SEN2SR)
+
+Este proyecto incluye un módulo para mejorar la resolución espacial de las imágenes Sentinel-2 de 10m a 2.5m utilizando el modelo **SEN2SR**, y para alinear las imágenes de Sentinel-1 y las etiquetas a esta nueva resolución.
+
+### Scripts
+Los scripts de procesamiento se encuentran en la carpeta `scripts/`:
+- `pipeline_orchestrator.py`: Script maestro que ejecuta todo el flujo.
+- `apply_superres.py`: Aplica la super-resolución a las imágenes S2.
+- `resize_s1_labels.py`: Redimensiona S1 y etiquetas usando la geometría de las nuevas imágenes S2.
+
+### Uso
+Para ejecutar el pipeline de super-resolución sobre un dataset descargado (por ejemplo, `dataset_sen12flood_v1`):
+
+```bash
+python3 scripts/pipeline_orchestrator.py --dataset_dir dataset_sen12flood_v1
+```
+
+### Resultados
+El script generará nuevas carpetas con el sufijo `_HighRes` dentro del directorio del dataset:
+- `S2_HighRes/`: Imágenes S2 a 2.5m.
+- `S1_HighRes/`: Imágenes S1 re-escaladas (bilineal) a 2.5m.
+- `labels_HighRes/`: Etiquetas re-escaladas (vecino más cercano) a 2.5m.
+
