@@ -65,10 +65,12 @@ def apply_superres(input_dir, output_dir, model_path="model/SEN2SRLite_RGBN"):
                 img_data = src.read([3, 2, 1, 4]) 
                 
                 # Normalize
-                if src.dtypes[0] == 'uint16':
-                     img = img_data.astype('float32') / 10000.0
-                else:
-                     img = img_data.astype('float32')
+                img = img_data.astype('float32')
+                
+                # If values are in 0-10000 range (e.g. max > 1.0 or 255), normalize to 0-1
+                # Sentinel-2 usually uses 10000 as scaling factor
+                if img.max() > 1.0:
+                     img = img / 10000.0
                 
                 img = np.clip(img, 0, 1)
 
